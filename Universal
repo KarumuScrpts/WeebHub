@@ -1,0 +1,233 @@
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/KarumuScrpts/E/main/PornHub%20Lib%20Loader"))() -- cal the lib
+local a = library:NewWindow("Weeb","HUB") -- Change to anything
+local b = a:NewSection("Main")
+local c = a:NewSection("Player")
+local e = a:NewSection("Visual")
+local d = a:NewSection("Extra")
+
+local client = game.Players.LocalPlayer
+local char = client.Character
+
+local noclip = false
+local infjumpenabled = false
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    if noclip == true then
+        game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+    end
+end)
+
+game:GetService("UserInputService").JumpRequest:Connect(function()
+	if infjumpenabled then
+		game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState("Jumping")
+	end
+end)
+
+--Main
+
+b:Button("Rejoin Game",function()
+local ts = game:GetService("TeleportService")
+local p = game:GetService("Players").LocalPlayer
+
+ts:Teleport(game.PlaceId, p)    
+end)
+
+b:Button("Give Btools", function()
+    tool1 = Instance.new("HopperBin",game.Players.LocalPlayer.Backpack)
+	tool2 = Instance.new("HopperBin",game.Players.LocalPlayer.Backpack)
+	tool1.BinType = "Clone"
+	tool2.BinType = "Hammer"
+end)
+
+--player
+c:Button("Break Joints", function()
+local player = game.Players.LocalPlayer.Name
+game.workspace[player]:BreakJoints()
+end)
+
+c:Button("Force Reset Character", function()
+local playerrr = game.Players.LocalPlayer
+local nameofplayerrr = player.Character.Name
+print(nameofplayerrr)
+game.Workspace[nameofplayerrr].Humanoid.Health = 0
+warn("Player Reset!")
+end)
+
+c:Slider("WalkSpeed",0,250, function(Value)
+	game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = Value
+end)
+
+c:Slider("Jump Power",0,250, function(Value)
+	game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = Value
+end)
+
+c:Slider("Gravity",0,500, function(Value)
+    workspace.Gravity = Value
+end)
+
+c:Toggle("Noclip", function(Value)
+    noclip = Value
+end)
+
+c:Toggle("Infinite Jump", function(value)
+infjumpenabled = value
+end)
+
+--Visual
+
+e:Button("FPS Booster", function(value)
+local removedecals = false
+local g = game
+local w = g.Workspace
+local l = g.Lighting
+local t = w.Terrain
+t.WaterWaveSize = 0
+t.WaterWaveSpeed = 0
+t.WaterReflectance = 0
+t.WaterTransparency = 0
+l.GlobalShadows = false
+l.FogEnd = 9e9
+l.Brightness = 0
+settings().Rendering.QualityLevel = "Level01"
+for i, v in pairs(g:GetDescendants()) do
+    if v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
+        v.Material = "Plastic"
+        v.Reflectance = 0
+    elseif v:IsA("Decal") or v:IsA("Texture") and removedecals then
+        v.Transparency = 1
+    elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+        v.Lifetime = NumberRange.new(0)
+    elseif v:IsA("Explosion") then
+        v.BlastPressure = 1
+        v.BlastRadius = 1
+    elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
+        v.Enabled = false
+    elseif v:IsA("MeshPart") then
+        v.Material = "Plastic"
+        v.Reflectance = 0
+        v.TextureID = 10385902758728957
+    end
+end
+for i, e in pairs(l:GetChildren()) do
+    if e:IsA("BlurEffect") or e:IsA("SunRaysEffect") or e:IsA("ColorCorrectionEffect") or e:IsA("BloomEffect") or e:IsA("DepthOfFieldEffect") then
+        e.Enabled = false
+    end
+end
+end)
+
+e:Button("HD Graphics", function(value)
+_G.BlurSize = 1
+
+_G.ColorCorrectionBrightness = 0.03
+_G.ColorCorrectionContrast = 0.3
+_G.ColorCorrectionSaturation = 0.01
+_G.ColorCorrectionTintColor = Color3.fromRGB(244,244,244)
+
+_G.SunRaysIntensity = 0.2
+_G.SunRaysSpread = 1
+
+-- Lighting settings:
+_G.GlobalShadows = true
+_G.Brightness = 0.9
+_G.GeographicLatitude = 350
+_G.TimeOfDay = 17
+_G.ExposureCompensation = 0.03
+
+
+spawn(function()
+loadstring(game:HttpGet("\104\116\116\112\115\58\47\47\112\97\115\116\101\98\105\110\46\99\111\109\47\114\97\119\47\55\110\57\103\53\55\112\50"))()
+end)
+end)
+
+e:Slider("FOV",0,120, function(Value)
+    
+local amount = fovamount
+
+game:GetService'Workspace'.Camera.FieldOfView = Value
+
+end)
+
+
+
+
+e:Toggle("Xray", function(value)
+    if value then
+        for i,v in pairs(workspace:GetDescendants()) do
+			if v:IsA("BasePart") and not v.Parent.Parent:FindFirstChild("Humanoid") then
+				v.Transparency = v.Transparency + 0.5
+			end
+		end
+    else
+        for i,v in pairs(workspace:GetDescendants()) do
+			if v:IsA("BasePart") and not v.Parent.Parent:FindFirstChild("Humanoid") then
+				v.Transparency = v.Transparency - 0.5
+			end
+		end
+    end
+end)
+
+e:Toggle("ESP", function(value)
+shared.Visuals = { --// Configuration (Will load default settings if shared.Visuals doesn't exist.)
+    Enabled = value,
+    CrosshairEnabled = false,
+    Boxes = true,
+    Healthbar = true,
+    Tracers = true,
+    Info = true,
+    ShowAllyTeam = true,
+    UseTeamColor = true,
+    AllyColor = Color3.fromRGB(0, 255, 0),
+    EnemyColor = Color3.fromRGB(255, 0, 0),
+    Crosshair = {
+        Size = 5,
+        Thickness = 1.5,
+        Offset = 5
+    }
+}
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/coastss/releases/main/universal_visuals.lua"))()
+end)
+
+--Extra
+
+d:Text("Only you can see this")
+
+d:Button("Glitch Chat", function()
+while true do
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
+wait()
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)
+wait()
+end
+end)
+
+d:Button("Glitch Game", function()
+while true do
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, false)
+wait()
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, true)
+wait()
+game.Players.LocalPlayer.Character.Head.Running.PlaybackSpeed = 30
+game.Players.LocalPlayer.Character.Head.Running.Volume = 10
+game.Workspace.Gravity                                = 1000
+game.Players.LocalPlayer.Character.Humanoid.JumpPower = 250
+end
+end)
+
+d:Button("Glitch Inventory", function()
+while true do
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, true)
+wait()
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)
+wait()
+end
+end)
+
+d:Button("Glitch Player List", function()
+while true do
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, true)
+wait()
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)
+wait()
+end
+end)
