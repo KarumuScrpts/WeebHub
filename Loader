@@ -1,0 +1,41 @@
+nouni=false
+local function lo(l)
+loadstring(game:HttpGet(l,true))()
+nouni=true
+end
+
+if game.PlaceId==4520749081 then --King Legacy
+lo("https://raw.githubusercontent.com/KarumuScrpts/WeebHub/main/King%20Legacy.txt")
+end
+
+if game.PlaceId==542351431 then --My Hero Mania
+lo("https://raw.githubusercontent.com/KarumuScrpts/WeebHub/main/My%20Hero%20Mania.txt")
+end
+
+if game.PlaceId==5016324469 then --Street Strikers
+lo("https://raw.githubusercontent.com/KarumuScrpts/WeebHub/main/Street%20Strikers%20.txt")
+end
+
+if game.PlaceId==1499872953 then --Boku No Roblox
+lo("https://raw.githubusercontent.com/KarumuScrpts/WeebHub/main/Boku%20No%20Roblox.txt")
+end
+
+if game.PlaceId==2809202155 then --Your Bizzare Adventure
+lo("https://raw.githubusercontent.com/KarumuScrpts/WeebHub/main/Yout%20Bizzare%20Adventure.txt")
+end
+
+if nouni==false then --Universal
+lo("https://raw.githubusercontent.com/KarumuScrpts/WeebHub/main/Universal")
+end
+
+
+--[[
+
+Scripts made by Sin#3876
+Discord: https://discord.gg/aqR2mCBNMg
+
+If you use any scripts please give credits
+
+Your welcome for the open source Hub
+
+]]--
