@@ -1,0 +1,242 @@
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/KarumuScrpts/E/main/PornHub%20Lib%20Loader"))() -- cal the lib
+local a = library:NewWindow("Weeb","HUB") -- Change to anything
+local b = a:NewSection("Main")
+local c = a:NewSection("Player")
+local e = a:NewSection("Visual")
+
+local client = game.Players.LocalPlayer
+local char = client.Character
+
+local noclip = false
+local infjumpenabled = false
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    if noclip == true then
+        game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+    end
+end)
+
+game:GetService("UserInputService").JumpRequest:Connect(function()
+	if infjumpenabled then
+		game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState("Jumping")
+	end
+end)
+
+local Character_Table = {}
+
+    getgenv().mobs = nil
+    getgenv().autofarm = false
+    local HRT = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+    local Character_Table = {}
+
+    for i, v in pairs(game:GetService("Workspace").Living:GetChildren()) do
+        if v:IsA("Model") then
+            table.insert(Character_Table, v.Name)
+        end
+    end
+
+--Main
+
+b:Drop("Mobs To Farm",Character_Table,function(mb)
+            getgenv().mobs = mb
+        end)
+
+    b:Toggle("Autofarm Start",function(bool)
+            getgenv().autofarm = bool
+
+            game:GetService("RunService").Heartbeat:Connect(
+                function()
+                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                end
+            )
+
+            while wait() do
+                for i, v in pairs(game:GetService("Workspace").Living:GetChildren()) do
+                    if v.Name == getgenv().mobs and getgenv().autofarm == true and v:FindFirstChild("HumanoidRootPart") then
+                        repeat
+                            wait()
+                            local TweenService = game:GetService("TweenService")
+                            local tweenInfo =
+                                TweenInfo.new(
+                                1, -- Time
+                                Enum.EasingStyle.Linear, -- EasingStyle
+                                Enum.EasingDirection.Out, -- EasingDirection
+                                0, -- RepeatCount (when less than zero the tween will loop indefinitely)
+                                false, -- Reverses (tween will reverse once reaching it's goal)
+                                0 -- DelayTime
+                            )
+
+                            local part = game.Players.LocalPlayer.Character.HumanoidRootPart
+                            local npc = v.HumanoidRootPart
+                            local npcCFrame =
+                                CFrame.new(
+                                v.HumanoidRootPart.Position + Vector3.new(0, -6, 0),
+                                v.HumanoidRootPart.Position
+                            )
+                            local tween = TweenService:Create(part, tweenInfo, {CFrame = npcCFrame})
+                            tween:Play()
+                        until v.Humanoid.Health < 0.2
+                        wait()
+                    end
+                end
+            end
+        end)
+
+    b:Toggle("Auto Hit",function(bool)
+            local Char = game.Players.LocalPlayer.Character
+            getgenv().autohit = bool
+            while wait() do
+                if getgenv().autohit == true then
+                    Char.RemoteEvent:FireServer("InputBegan", {["Input"] = (Enum.UserInputType.MouseButton1)})
+                    Char.RemoteEvent:FireServer("InputEnded", {["Input"] = (Enum.UserInputType.MouseButton1)})
+                end
+            end
+        end)
+
+    b:Toggle("Item Farm",function(bool)
+            getgenv().item = bool
+            while wait() do
+                if getgenv().item == true then
+                    for i, v in pairs(game:GetService("Workspace")["Item_Spawns"].Items:GetChildren()) do
+                        if v:IsA("Model") then
+                            tweenService, tweenInfo =
+                                game:GetService("TweenService"),
+                                TweenInfo.new(
+                                    (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Base.Position).magnitude /
+                                        100,
+                                    Enum.EasingStyle.Linear
+                                )
+                            tween =
+                                tweenService:Create(
+                                game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart,
+                                tweenInfo,
+                                {CFrame = v.Base.CFrame}
+                            )
+                            tween:Play()
+                            wait(5)
+                            fireclickdetector(v.ClickDetector)
+                        end
+                    end
+                end
+            end
+        end)
+
+--player
+c:Slider("WalkSpeed",0,250, function(Value)
+	game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = Value
+end)
+
+c:Slider("Jump Power",0,250, function(Value)
+	game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = Value
+end)
+
+c:Slider("Gravity",0,500, function(Value)
+    workspace.Gravity = Value
+end)
+
+c:Toggle("Noclip", function(Value)
+    noclip = Value
+end)
+
+c:Toggle("Infinite Jump", function(value)
+infjumpenabled = value
+end)
+
+--Visual
+
+e:Button("FPS Booster", function(value)
+local removedecals = false
+local g = game
+local w = g.Workspace
+local l = g.Lighting
+local t = w.Terrain
+t.WaterWaveSize = 0
+t.WaterWaveSpeed = 0
+t.WaterReflectance = 0
+t.WaterTransparency = 0
+l.GlobalShadows = false
+l.FogEnd = 9e9
+l.Brightness = 0
+settings().Rendering.QualityLevel = "Level01"
+for i, v in pairs(g:GetDescendants()) do
+    if v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
+        v.Material = "Plastic"
+        v.Reflectance = 0
+    elseif v:IsA("Decal") or v:IsA("Texture") and removedecals then
+        v.Transparency = 1
+    elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+        v.Lifetime = NumberRange.new(0)
+    elseif v:IsA("Explosion") then
+        v.BlastPressure = 1
+        v.BlastRadius = 1
+    elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
+        v.Enabled = false
+    elseif v:IsA("MeshPart") then
+        v.Material = "Plastic"
+        v.Reflectance = 0
+        v.TextureID = 10385902758728957
+    end
+end
+for i, e in pairs(l:GetChildren()) do
+    if e:IsA("BlurEffect") or e:IsA("SunRaysEffect") or e:IsA("ColorCorrectionEffect") or e:IsA("BloomEffect") or e:IsA("DepthOfFieldEffect") then
+        e.Enabled = false
+    end
+end
+end)
+
+e:Slider("FOV",0,120, function(Value)
+    
+local amount = fovamount
+
+game:GetService'Workspace'.Camera.FieldOfView = Value
+
+end)
+
+
+
+
+e:Toggle("Xray", function(value)
+    if value then
+        for i,v in pairs(workspace:GetDescendants()) do
+			if v:IsA("BasePart") and not v.Parent.Parent:FindFirstChild("Humanoid") then
+				v.Transparency = v.Transparency + 0.5
+			end
+		end
+    else
+        for i,v in pairs(workspace:GetDescendants()) do
+			if v:IsA("BasePart") and not v.Parent.Parent:FindFirstChild("Humanoid") then
+				v.Transparency = v.Transparency - 0.5
+			end
+		end
+    end
+end)
+
+e:Toggle("ESP", function(value)
+shared.Visuals = { --// Configuration (Will load default settings if shared.Visuals doesn't exist.)
+    Enabled = value,
+    CrosshairEnabled = false,
+    Boxes = true,
+    Healthbar = true,
+    Tracers = true,
+    Info = true,
+    ShowAllyTeam = true,
+    UseTeamColor = true,
+    AllyColor = Color3.fromRGB(0, 255, 0),
+    EnemyColor = Color3.fromRGB(255, 0, 0),
+    Crosshair = {
+        Size = 5,
+        Thickness = 1.5,
+        Offset = 5
+    }
+}
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/coastss/releases/main/universal_visuals.lua"))()
+end)
+
+
+
+
+
+
+
